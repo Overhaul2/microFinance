@@ -35,7 +35,7 @@ public abstract class Utilisateur implements Serializable {
     @Column(name = "telephone")
     @NotNull(message = "le champ tel est obligatoir")
     @Size(min = 7 ,max =8 , message = "entrer un numéro de telephone correct")
-    private int tel;
+    private int telephone;
 
     @Column(name = "residense")
     @Size(max = 50,min = 5, message = "entrer une résidense correct")
