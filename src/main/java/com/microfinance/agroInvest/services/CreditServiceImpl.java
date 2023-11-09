@@ -17,11 +17,13 @@ import java.util.List;
 @AllArgsConstructor
 
 
-public class CreditServiceImpl  {
+public class CreditServiceImpl implements ICreditService  {
+    @Autowired
     private RepositoryCredit repositoryCredit;
 
 
-    public Credit AjouteDemande(Credit credit, MultipartFile audioFile) throws Exception {
+    @Override
+    public Credit AjouterDemande(Credit credit, MultipartFile audioFile) throws Exception {
         Credit credit1 = repositoryCredit.findByNom(credit.getNom());
         if (credit1 != null) {
             throw new Exception("un demande avec le même nom existe déjà");
@@ -63,6 +65,7 @@ public class CreditServiceImpl  {
 
     public Credit ModiffierDemande(Credit credit, long id, MultipartFile audioFile) throws Exception {
         Credit credit1 = repositoryCredit.findByIdCredit(id);
+        Credit credit2= repositoryCredit.findByNom(credit.getNom());
         credit1.setNom(credit.getNom());
         credit1.setDescription(credit.getDescription());
         credit1.setMontant(credit.getMontant());
@@ -91,25 +94,21 @@ public class CreditServiceImpl  {
                             credit1.setAudioDescriptionPath("http://localhost/audio_description/"+audioFile.getOriginalFilename());
                         }
                     } catch (Exception e) {
-                        throw new NotFoundException("impossible.....");
+                        throw new NotFoundException("impossible de telecharger le fichier audio");
                     }
                 }
             } catch (Exception e) {
                 throw new Exception(e.getMessage());
             }
         }
-        return repositoryCredit.save(credit1);
+        if (credit2==null){
+            repositoryCredit.save(credit1);
+        }else {
+            throw new Exception("le nom existe dejà");
+        }
+        return credit1;
     }
 
-  /*  @Override
-    public String ModiffierDemande(Credit credit) {
-        Credit credit1= repositoryCredit.findByNom(credit.getNom());
-        if (credit1!=null){
-            return "une demande de crédit avec le même nom existe dejà";
-        }
-        repositoryCredit.save(credit);
-        return "La demande a été modiffier avec succès ";
-    }*/
 
 
     public List<Credit> afficherTout() {
@@ -122,14 +121,13 @@ public class CreditServiceImpl  {
     }
 
 
-    public String Supprimer(Long idCredit) {
+    public Credit Supprimer(Long idCredit) throws NotFoundException {
         Credit credit= repositoryCredit.findByIdCredit(idCredit);
-        if (credit==null) {
-            //throw new NotFoundException("Cette demande n'existe pas");
-            return "Cette demande n'existe pas";
+        if (credit.getIdCredit()==null) {
+            throw new NotFoundException("Cette demande n'existe pas");
         }else {
             repositoryCredit.deleteById(idCredit);
-            return "la demande de credit a été supprimé avec succès";
         }
+        return credit;
     }
 }

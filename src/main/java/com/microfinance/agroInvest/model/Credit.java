@@ -23,7 +23,7 @@ public class Credit {
 
     @Column(name = "Montant")
     @NotNull(message = "le champ montant est obligatoire")
-    private int montant;
+    private String montant;
 
     @Column(name = "Date de Debut")
     @NotNull(message = "le champ dateDebut est obligatoire")
@@ -40,15 +40,5 @@ public class Credit {
     @Column(name = "DescriptionAudio")
     private String audioDescriptionPath;
 
-   /* public void saveFileAudio(File audioFile) throws IOException{
-     //vérification si le fichier existe ou pas
-     if (audioFile.exists()){
-      String nomAudio= idCredit +nom +"_DescriptionAudio.wav" ;
-      String destinationFichier = new File(destination + nomAudio);
-
-      audioDescriptionPath= destinationFichier.getPath();
-
-     }
-    }*/
 
 }

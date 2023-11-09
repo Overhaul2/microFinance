@@ -38,14 +38,11 @@ public class CreditControleur {
        }catch (Exception e){
            throw new NotFoundException("impossible d'ajouter");
        }
-       Credit credit1= creditService.AjouteDemande(credit,audioFile);
+       Credit credit1= creditService.AjouterDemande(credit,audioFile);
        return new ResponseEntity<>(credit1, HttpStatus.CREATED);
    }
 
     @PutMapping("/Modiffier/{idCredit}")
-    /*private String Modiffier(@RequestBody Credit credit){
-        return  creditService.ModiffierDemande(credit);
-    }*/
     public ResponseEntity<Credit> Modifer(@PathVariable long idCredit,
             @RequestParam("credit") String creditString,
             @RequestParam(value = "DescriptionAudio", required = false)MultipartFile audioFile ) throws Exception {
@@ -60,18 +57,19 @@ public class CreditControleur {
         return new ResponseEntity<>(credit1, HttpStatus.OK);
     }
 
-    @GetMapping("/affichertout")
-    private List<Credit> affichertout(){
+    @GetMapping("/afficherTout")
+    private List<Credit> afficherTout(){
         return creditService.afficherTout();
     }
 
-    @GetMapping("/afficherId")
+    @GetMapping("/lire{idCredit}")
     private Credit lire(@RequestParam Long idCredit){
         return creditService.lire(idCredit);
     }
 
-    @DeleteMapping("/supprimer")
-    private String supprimer(@RequestParam Long idCredit){
-        return creditService.Supprimer(idCredit);
+    @DeleteMapping("/supprimer{idCredit}")
+    private String supprimer(@RequestParam Long idCredit) throws NotFoundException {
+        creditService.Supprimer(idCredit);
+        return "supprimer avec succès";
     }
 }
