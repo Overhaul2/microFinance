@@ -26,13 +26,13 @@ public abstract class Utilisateur implements Serializable {
     @Size(max = 80, message = "nom et prenom trop long", min = 10)
     private  String nomPrenom;
 
-    @Column(name = "email")
+    @Column(name = "email",unique = true,updatable = false)
     @NotNull(message = "le champ email est obligatoire")
     @Size(max = 50, message = "email trop long")
     @Email(message = "Entrer une adress email valide")
     private String email;
 
-    @Column(name = "telephone")
+    @Column(name = "telephone",unique = true)
     @NotNull(message = "le champ tel est obligatoir")
     @Size(min = 7 ,max =8 , message = "entrer un numéro de telephone correct")
     private int telephone;

@@ -52,7 +52,7 @@ public class UtilisateurServiceImpl implements IUtilisateurService{
 
     @Override
     public Utilisateur lire(Long idUser) {
-        return null;
+        return repositoryUtilisateur.findByIdUser(idUser);
     }
 
     @Override

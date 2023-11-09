@@ -6,10 +6,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+
 @Entity
 @Data
 @AllArgsConstructor @NoArgsConstructor
-@Table(name = "MicroCredi")
+@Table(name = "MicroCredit")
 public class Credit {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCredit;
@@ -23,15 +27,28 @@ public class Credit {
 
     @Column(name = "Date de Debut")
     @NotNull(message = "le champ dateDebut est obligatoire")
-    private String dateDebut;
+    private Date dateDebut;
 
     @Column(name = "Date de Fin")
     @NotNull(message = "le champ dateFin est obligatoire")
-    private String dateFin;
+    private Date dateFin;
 
     @Column(name = "Description")
     @NotNull(message = "le champ d'escription est obligatoire")
     private String description;
 
+    @Column(name = "DescriptionAudio")
+    private String audioDescriptionPath;
+
+   /* public void saveFileAudio(File audioFile) throws IOException{
+     //vérification si le fichier existe ou pas
+     if (audioFile.exists()){
+      String nomAudio= idCredit +nom +"_DescriptionAudio.wav" ;
+      String destinationFichier = new File(destination + nomAudio);
+
+      audioDescriptionPath= destinationFichier.getPath();
+
+     }
+    }*/
 
 }
