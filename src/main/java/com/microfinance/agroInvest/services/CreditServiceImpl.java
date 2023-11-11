@@ -51,7 +51,7 @@ public class CreditServiceImpl implements ICreditService  {
                                 credit.setAudioDescriptionPath("http://localhost/audio_description/"+audioFile.getOriginalFilename());
                             }
                         }catch (Exception e){
-                            throw new Exception("Impossible de télécharger l\'audio");
+                            throw new Exception("Impossible de télécharger l\'image");
                         }
                     }
                 } catch (Exception e){
@@ -121,13 +121,13 @@ public class CreditServiceImpl implements ICreditService  {
     }
 
 
-    public Credit Supprimer(Long idCredit) throws NotFoundException {
+    public Credit Supprimer(Long idCredit) throws Exception {
         Credit credit= repositoryCredit.findByIdCredit(idCredit);
         if (credit.getIdCredit()==null) {
             throw new NotFoundException("Cette demande n'existe pas");
         }else {
             repositoryCredit.deleteById(idCredit);
         }
-        return credit;
+        throw new Exception("n'existe pas");
     }
 }

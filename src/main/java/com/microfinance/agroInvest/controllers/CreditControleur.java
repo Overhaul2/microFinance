@@ -68,7 +68,7 @@ public class CreditControleur {
     }
 
     @DeleteMapping("/supprimer{idCredit}")
-    private String supprimer(@RequestParam Long idCredit) throws NotFoundException {
+    private String supprimer(@RequestParam Long idCredit) throws Exception {
         creditService.Supprimer(idCredit);
         return "supprimer avec succès";
     }

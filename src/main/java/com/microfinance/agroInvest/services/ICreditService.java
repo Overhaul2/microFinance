@@ -14,5 +14,5 @@ public interface ICreditService {
 
     Credit lire(Long idCredit);
 
-    Credit Supprimer(Long idCredit) throws NotFoundException;
+    Credit Supprimer(Long idCredit) throws Exception;
 }
