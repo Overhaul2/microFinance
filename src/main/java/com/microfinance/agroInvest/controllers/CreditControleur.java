@@ -24,11 +24,11 @@ public class CreditControleur {
     @Autowired
     private CreditServiceImpl creditService;
 
-   @PostMapping("/Ajouter")
+   @PostMapping("/ajouter")
    // private String AjouterDemanse(@RequestBody Credit credit){
      //   return creditService.AjouterDemande(credit );
    // }
-    public ResponseEntity<Credit> Ajouter(
+    public ResponseEntity<Credit> ajouter(
           @Valid @RequestParam("credit") String creditString,
            @RequestParam(value = "audio", required = false)MultipartFile audioFile ) throws Exception {
          Credit credit = new Credit();
@@ -42,8 +42,8 @@ public class CreditControleur {
        return new ResponseEntity<>(credit1, HttpStatus.CREATED);
    }
 
-    @PutMapping("/Modiffier/{idCredit}")
-    public ResponseEntity<Credit> Modifer(@PathVariable Long idCredit,
+    @PutMapping("/modiffier/{idCredit}")
+    public ResponseEntity<Credit> modiffier(@PathVariable Long idCredit,
             @RequestParam("credit") String creditString,
             @RequestParam(value = "audio", required = false)MultipartFile audioFile ) throws Exception {
         Credit credit = new Credit();
@@ -57,8 +57,8 @@ public class CreditControleur {
         return new ResponseEntity<>(credit1, HttpStatus.OK);
     }
 
-    @GetMapping("/afficherTout")
-    private List<Credit> afficherTout(){
+    @GetMapping("/affichertout")
+    private List<Credit> affichertout(){
         return creditService.afficherTout();
     }
 
