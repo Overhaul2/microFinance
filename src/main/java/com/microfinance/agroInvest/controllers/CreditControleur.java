@@ -30,7 +30,7 @@ public class CreditControleur {
    // }
     public ResponseEntity<Credit> Ajouter(
           @Valid @RequestParam("credit") String creditString,
-           @RequestParam(value = "DescriptionAudio", required = false)MultipartFile audioFile ) throws Exception {
+           @RequestParam(value = "audio", required = false)MultipartFile audioFile ) throws Exception {
          Credit credit = new Credit();
        try{
            credit = new JsonMapper().readValue(creditString,Credit.class);
@@ -43,9 +43,9 @@ public class CreditControleur {
    }
 
     @PutMapping("/Modiffier/{idCredit}")
-    public ResponseEntity<Credit> Modifer(@PathVariable long idCredit,
+    public ResponseEntity<Credit> Modifer(@PathVariable Long idCredit,
             @RequestParam("credit") String creditString,
-            @RequestParam(value = "DescriptionAudio", required = false)MultipartFile audioFile ) throws Exception {
+            @RequestParam(value = "audio", required = false)MultipartFile audioFile ) throws Exception {
         Credit credit = new Credit();
         try{
             credit = new JsonMapper().readValue(creditString,Credit.class);

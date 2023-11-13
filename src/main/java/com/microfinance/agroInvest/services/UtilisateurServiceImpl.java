@@ -11,6 +11,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class UtilisateurServiceImpl implements IUtilisateurService{
+    
     private RepositoryUtilisateur repositoryUtilisateur; //injection
     @Override
     public String inscrireAgriculteur(Utilisateur utilisateur) {

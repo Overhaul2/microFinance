@@ -20,16 +20,14 @@ public class Investisseur {
     //private final long serialVersionUID=1L;
     @Column(name = "idInvestisseur")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUser;
+    private Long idInv;
 
     @Column(name = "nom prenom")
     @NotNull(message = "Le champ nom et prenom est obligatoire")
-    @Size(max = 80, message = "nom et prenom trop long", min = 10)
     private  String nomPrenom;
 
-    @Column(name = "email",unique = true)
+    @Column(name = "email")
     @NotNull(message = "le champ email est obligatoire")
-    @Size(max = 50, message = "email trop long")
     @Email(message = "Entrer une adress email valide")
     private String email;
 
@@ -39,17 +37,18 @@ public class Investisseur {
     private int telephone;
 
     @Column(name = "residense")
-    @Size(max = 50,min = 5, message = "entrer une résidense correct")
-    @NotNull(message = "le champ résidense est obligatoir")
+    @NotNull(message = "residense obligatoir")
     private String residense;
+
+    @Column(name = "image")
+    @NotNull(message = "image obligatoir")
+    private String image;
 
     @Column(name = "motDePasse")
     @NotNull(message = "le champ mot de passe est obligatoire")
-    @Size(min = 8, max = 50, message = "entrer un mode passe correct")
     private String passWord;
 
     @Column(name = "motDePasseConfirm")
     @NotNull(message = "le champ mot de passe confirm est obligatoire")
-    @Size(min = 8, max = 50, message = "entrer un mode passe correct")
     private String passWordConfirm;
 }

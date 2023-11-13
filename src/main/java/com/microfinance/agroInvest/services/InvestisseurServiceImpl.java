@@ -1,30 +1,25 @@
 package com.microfinance.agroInvest.services;
 
 import com.microfinance.agroInvest.exception.NotFoundException;
-import com.microfinance.agroInvest.model.Agriculteur;
-import com.microfinance.agroInvest.repository.RepositoryAgriculteur;
-import jakarta.persistence.EntityNotFoundException;
+import com.microfinance.agroInvest.model.Investisseur;
+import com.microfinance.agroInvest.repository.RepositoryInvestisseur;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.html.parser.Entity;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+@Service @AllArgsConstructor
+public class InvestisseurServiceImpl implements IInvestisseurService {
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+    private RepositoryInvestisseur repositoryInvestisseur;
 
-@Service
-@AllArgsConstructor
-public class AgriculteurServiceImpl implements IAgriculteurService {
 
-    private RepositoryAgriculteur repositoryAgriculteur;
-    @Override
-    public Agriculteur inscrire(Agriculteur agriculteur, MultipartFile imageFile) throws Exception {
-       Agriculteur agriculteur1= repositoryAgriculteur.findByEmailAndTelephone(agriculteur.getEmail(), agriculteur.getTelephone());
-        if (agriculteur1!=null){
+    public Investisseur inscrire(Investisseur investisseur, MultipartFile imageFile) throws Exception {
+        Investisseur investisseur1= repositoryInvestisseur.findByEmailAndTelephone(investisseur.getEmail(), investisseur.getTelephone());
+        if (investisseur1!=null){
             throw new RuntimeException("un agriculteur bexiste dejà avec le même numero ou adresse email");
         }else {
             if(imageFile != null){
@@ -35,7 +30,7 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
                         Files.createDirectories(rootlocation);
                         Files.copy(imageFile.getInputStream(),
                                 rootlocation.resolve(imageFile.getOriginalFilename()));
-                        agriculteur.setImage("http://localhost/image_agriculteur/"+imageFile.getOriginalFilename());
+                        investisseur.setImage("http://localhost/image_agriculteur/"+imageFile.getOriginalFilename());
                     }else{
                         try {
                             String nom = location+"\\"+imageFile.getOriginalFilename();
@@ -43,38 +38,38 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
                             if(!Files.exists(name)){
                                 Files.copy(imageFile.getInputStream(),
                                         rootlocation.resolve(imageFile.getOriginalFilename()));
-                                agriculteur.setImage("http://localhost/image_agriculteur/"+imageFile.getOriginalFilename());
+                                investisseur.setImage("http://localhost/image_agriculteur/"+imageFile.getOriginalFilename());
                             }else{
                                 Files.delete(name);
                                 Files.copy(imageFile.getInputStream(),rootlocation.resolve(imageFile.getOriginalFilename()));
-                                agriculteur.setImage("http://localhost/image_agriculteur/"+imageFile.getOriginalFilename());
+                                investisseur.setImage("http://localhost/image_agriculteur/"+imageFile.getOriginalFilename());
                             }
                         }catch (Exception e){
-                            throw new Exception("Impossible de télécharger l'image");
+                            throw new Exception("Impossible de télécharger l\'audio");
                         }
                     }
                 } catch (Exception e){
                     throw new Exception(e.getMessage());
                 }
             }
-            return repositoryAgriculteur.save(agriculteur);
+            return repositoryInvestisseur.save(investisseur);
         }
 
     }
 
 
-    public Agriculteur modiffier(Agriculteur agriculteur,Long idAgr, MultipartFile multipartFile) throws Exception {
-        Agriculteur agriculteur1 = repositoryAgriculteur.findByIdAgr(idAgr);
-                //.orElseThrow(()-> new EntityNotFoundException("agriculteur nexistipas avec id:" +idAgr ));
-       Agriculteur agriculteur2= repositoryAgriculteur.findByEmailAndTelephone(agriculteur.getEmail(),agriculteur.getTelephone() );
-        agriculteur1.setNomPrenom(agriculteur.getNomPrenom());
-        agriculteur1.setEmail(agriculteur.getEmail());
-        agriculteur1.setTelephone(agriculteur.getTelephone());
-        agriculteur1.setResidense(agriculteur.getResidense());
-        agriculteur1.setAge(agriculteur.getAge());
-        agriculteur1.setActiviteMenee(agriculteur.getActiviteMenee());
-        agriculteur1.setPassWord(agriculteur.getPassWord());
-        agriculteur1.setPassWordConfirm(agriculteur.getPassWordConfirm());
+    public Investisseur modiffier(Investisseur investisseur,Long idInv, MultipartFile multipartFile) throws Exception {
+        Investisseur investisseur1 = repositoryInvestisseur.findByIdInv(idInv);
+        //.orElseThrow(()-> new EntityNotFoundException("agriculteur nexistipas avec id:" +idAgr ));
+        Investisseur investisseur2= repositoryInvestisseur.findByEmailAndTelephone(investisseur.getEmail(),investisseur.getTelephone() );
+        investisseur1.setNomPrenom(investisseur.getNomPrenom());
+        investisseur1.setEmail(investisseur.getEmail());
+        investisseur1.setTelephone(investisseur.getTelephone());
+        investisseur1.setResidense(investisseur.getResidense());
+       // investisseur1.setAge(investisseur.getAge());
+       // investisseur1.setActiviteMenee(investisseur.getActiviteMenee());
+        investisseur1.setPassWord(investisseur.getPassWord());
+        investisseur1.setPassWordConfirm(investisseur.getPassWordConfirm());
         if (multipartFile != null) {
             String location = "C:\\xampp\\htdocs\\image_agriculteur";
             try {
@@ -83,7 +78,7 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
                     Files.createDirectories(rootLocation);
                     Files.copy(multipartFile.getInputStream(),
                             rootLocation.resolve(multipartFile.getOriginalFilename()));
-                    agriculteur.setImage("http://localhost/image_agriculteur/"+multipartFile.getOriginalFilename());
+                    investisseur.setImage("http://localhost/image_agriculteur/"+multipartFile.getOriginalFilename());
                 } else {
                     try {
                         String nom = location + "\\" + multipartFile.getOriginalFilename();
@@ -91,11 +86,11 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
                         if (!Files.exists(name)) {
                             Files.copy(multipartFile.getInputStream(),
                                     rootLocation.resolve(multipartFile.getOriginalFilename()));
-                            agriculteur.setImage("http://localhost/image_agriculteur/"+multipartFile.getOriginalFilename());
+                            investisseur.setImage("http://localhost/image_agriculteur/"+multipartFile.getOriginalFilename());
                         } else {
                             Files.delete(name);
                             Files.copy(multipartFile.getInputStream(), rootLocation.resolve(multipartFile.getOriginalFilename()));
-                            agriculteur.setImage("http://localhost/image_agriculteur/"+multipartFile.getOriginalFilename());
+                            investisseur.setImage("http://localhost/image_agriculteur/"+multipartFile.getOriginalFilename());
                         }
                     } catch (Exception e) {
                         throw new NotFoundException("impossible de telecharger le fichier audio");
@@ -105,43 +100,43 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
                 throw new Exception(e.getMessage());
             }
         }
-       if (agriculteur2==null){
-            repositoryAgriculteur.save(agriculteur1);
+         if (investisseur2==null){
+            repositoryInvestisseur.save(investisseur1);
         }else {
-         throw new Exception("le nom existe dejà");
+         throw new Exception("un investisseur existe dejà avec le même nom ou numéro de téléphone");
         }
-        return agriculteur1;
+        return investisseur1;
     }
 
     @Override
     public String connexion(String email, String password) {
-       Agriculteur agriculteur= repositoryAgriculteur.findByEmailAndPassWord(email,password);
-       if (agriculteur!=null){
-           return "Agriculteur connecter avec succès";
-       }else {
-           return "email ou mot de passe incorrect";
-       }
+        Investisseur investisseur= repositoryInvestisseur.findByEmailAndPassWord(email,password);
+        if (investisseur!=null){
+            return "Agriculteur connecter";
+        }else {
+            return "email ou mot de passe incorrect";
+        }
 
     }
 
     @Override
-    public Agriculteur lire(Long idAgr) {
-        return repositoryAgriculteur.findByIdAgr(idAgr);
+    public Investisseur lire(Long idInv) {
+        return repositoryInvestisseur.findByIdInv(idInv);
     }
 
     @Override
-    public List<Agriculteur> affichertout() {
-        return repositoryAgriculteur.findAll();
+    public List<Investisseur> affichertout() {
+        return repositoryInvestisseur.findAll();
     }
 
     @Override
-    public Agriculteur supprimer(Long idAgr) throws NotFoundException {
-        Agriculteur agriculteur=repositoryAgriculteur.findByIdAgr(idAgr);
-        if (agriculteur==null){
+    public Investisseur supprimer(Long idInv) throws NotFoundException {
+        Investisseur investisseur=repositoryInvestisseur.findByIdInv(idInv);
+        if (investisseur==null){
             throw new NotFoundException("aucun agriculteur trouvé");
         }else {
-            repositoryAgriculteur.deleteById(idAgr);
+            repositoryInvestisseur.deleteById(idInv);
         }
-        return agriculteur;
+        return investisseur;
     }
 }

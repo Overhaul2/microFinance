@@ -1,5 +1,6 @@
 package com.microfinance.agroInvest.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.microfinance.agroInvest.exception.NotFoundException;
 import com.microfinance.agroInvest.model.Agriculteur;
@@ -38,18 +39,18 @@ public class AgriculteurController {
         return new ResponseEntity<>(agriculteur1, HttpStatus.CREATED);
     }
 
-    @PutMapping("/modiffier{idAgr}")
-    public ResponseEntity<Agriculteur> Modifer(@PathVariable long idAgr,
-                                          @RequestParam("agriculteur") String agriculteurSring,
-                                          @RequestParam(value = "DescriptionAudio", required = false)MultipartFile imageFile ) throws Exception {
+    @PutMapping("/modiffier{id}")
+    public ResponseEntity<?> modifer(@PathVariable Long id,
+                                          @RequestParam("agriculteur") String agriculteurString,
+                                          @RequestParam(value = "image", required = false)MultipartFile multipartFile ) throws Exception {
         Agriculteur agriculteur = new Agriculteur();
         try{
-            agriculteur = new JsonMapper().readValue((DataInput) agriculteur,Agriculteur.class);
+            agriculteur = new JsonMapper().readValue(agriculteurString,Agriculteur.class);
 
-        }catch (Exception e){
-            throw new NotFoundException("impossible d'ajouter");
+        }catch (JsonProcessingException e){
+            throw new Exception(e.getMessage());
         }
-        Agriculteur agriculteur1= agriculteurService.modiffier(agriculteur,idAgr,imageFile);
+        Agriculteur agriculteur1= agriculteurService.modiffier(agriculteur,id,multipartFile);
         return new ResponseEntity<>(agriculteur1, HttpStatus.OK);
     }
     @DeleteMapping("/supprimer{idAgr}")
@@ -64,4 +65,9 @@ public class AgriculteurController {
     @GetMapping("/afficherTout")
     private List<Agriculteur> afficherTout(){ return agriculteurService.affichertout();
     };
+    @PostMapping("/connexion")
+    public Object connexion(@RequestParam("email")String email,@RequestParam("password")String password){
+        agriculteurService.connexion(email, password);
+        return "Utilisateur connecter";
+    }
 }

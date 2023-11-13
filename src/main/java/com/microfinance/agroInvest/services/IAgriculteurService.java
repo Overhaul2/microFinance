@@ -13,7 +13,7 @@ public interface IAgriculteurService {
 
     Agriculteur inscrire(Agriculteur agriculteur, MultipartFile imageFile) throws Exception;
 
-    Agriculteur modiffier(Agriculteur agriculteur,long idAgr, MultipartFile imageFile) throws Exception;
+    Agriculteur modiffier(Agriculteur agriculteur,Long idAgr, MultipartFile imageFile) throws Exception;
 
     String connexion(String email, String password);
 

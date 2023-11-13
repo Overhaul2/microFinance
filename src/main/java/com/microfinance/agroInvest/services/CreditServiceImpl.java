@@ -18,7 +18,6 @@ import java.util.List;
 
 
 public class CreditServiceImpl implements ICreditService  {
-    @Autowired
     private RepositoryCredit repositoryCredit;
 
 
