@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,15 +26,23 @@ public class CreditServiceImpl implements ICreditService  {
     public Credit AjouterDemande(Credit credit, MultipartFile audioFile) throws Exception {
         Credit credit1 = repositoryCredit.findByNom(credit.getNom());
         //verification des date lors de la demande de crédit
-        LocalDate dateDebut = credit.getDateDebut();
-        LocalDate dateFin = dateDebut.with(TemporalAdjusters.lastDayOfMonth());
+        //  LocalDate dateFinLimite = dateDebut.plusYears(2);
+        LocalDate dateDebut = LocalDate.now();
+        LocalDate dateFin = dateDebut.plusDays(30);
         LocalDate dateToDate = LocalDate.now();
 
-        if (dateDebut.isBefore(dateToDate)||dateDebut.getYear()!=dateToDate.getYear())
+        if (dateDebut.isBefore(dateToDate)) {
             throw new Exception("Veuillez entrer une date valide !!!");
+        }
+
         if (dateFin.isBefore(dateDebut)) {
             throw new Exception("La date de fin ne doit pas être antérieure à la date de début !!!");
         }
+
+        if (dateFin.isAfter(dateDebut.plusYears(2))) {
+            throw new Exception("La date de fin ne doit pas dépasser deux ans après la date de début !!!");
+        }
+
         if (credit1 != null) {
             throw new Exception("une demande avec le même nom existe déjà");
         } else {
@@ -60,7 +69,7 @@ public class CreditServiceImpl implements ICreditService  {
                                 credit.setAudioDescriptionPath("http://localhost/audio_description/"+audioFile.getOriginalFilename());
                             }
                         }catch (Exception e){
-                            throw new Exception("Impossible de télécharger l\'image");
+                            throw new Exception(e.getMessage());
                         }
                     }
                 } catch (Exception e){
@@ -74,14 +83,20 @@ public class CreditServiceImpl implements ICreditService  {
 
     public Credit ModiffierDemande(Credit credit, long id, MultipartFile audioFile) throws Exception {
         //verification des date lors de la modification
-        LocalDate dateDebut = credit.getDateDebut();
-        LocalDate dateFin = dateDebut.with(TemporalAdjusters.lastDayOfMonth());
+        LocalDate dateDebut = LocalDate.now();
+        LocalDate dateFin = dateDebut.plusDays(30);
         LocalDate dateToDate = LocalDate.now();
 
-        if (dateDebut.isBefore(dateToDate)||dateDebut.getYear()!=dateToDate.getYear())
+        if (dateDebut.isBefore(dateToDate)) {
             throw new Exception("Veuillez entrer une date valide !!!");
+        }
+
         if (dateFin.isBefore(dateDebut)) {
             throw new Exception("La date de fin ne doit pas être antérieure à la date de début !!!");
+        }
+
+        if (dateFin.isAfter(dateDebut.plusYears(2))) {
+            throw new Exception("La date de fin ne doit pas dépasser deux ans après la date de début !!!");
         }
 
         Credit credit1 = repositoryCredit.findByIdCredit(id);

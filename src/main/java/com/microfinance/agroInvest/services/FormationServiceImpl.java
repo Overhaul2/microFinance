@@ -5,6 +5,7 @@ import com.microfinance.agroInvest.exception.NotFoundException;
 import com.microfinance.agroInvest.repository.RepositoryFormation;
 import lombok.AllArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class FormationServiceImpl implements IFormationService{
-
+    @Autowired
     private RepositoryFormation repositoryFormation;
     @Override
     public Formation ajouter(Formation formation, MultipartFile videoFile) throws Exception {
@@ -61,16 +62,11 @@ public class FormationServiceImpl implements IFormationService{
 
     @Override
     public Formation modiffier(Formation formation, Long idFor, MultipartFile videoFile) throws Exception {
-        System.out.println("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-
         Formation formation1 = repositoryFormation.findFormationByIdFor(formation.getIdFor());
-        System.out.println(formation1);
             Formation formation2= repositoryFormation.findByNom(formation.getNom());
             formation1.setNom(formation.getNom());
-            formation.setDescription(formation.getDescription());
-            formation1.setNom(formation.getNom());
             formation1.setDescription(formation.getDescription());
-            formation.setVideo(formation.getVideo());
+            formation1.setVideo(formation.getVideo());
             if (videoFile != null) {
                 String location = "C:\\xampp\\htdocs\\video_Formation";
                 try {
@@ -94,7 +90,7 @@ public class FormationServiceImpl implements IFormationService{
                                 formation1.setVideo("http://localhost/video_Formation/"+videoFile.getOriginalFilename());
                             }
                         } catch (Exception e) {
-                            throw new NotFoundException("impossible de telecharger le fichier audio");
+                            throw new Exception(e.getMessage());
                         }
                     }
                 } catch (Exception e) {

@@ -1,6 +1,5 @@
 package com.microfinance.agroInvest.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,11 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
-@Data
-@AllArgsConstructor @NoArgsConstructor
+@Data @AllArgsConstructor @NoArgsConstructor
 @Table(name = "MicroCredit")
 public class Credit {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +25,11 @@ public class Credit {
 
     @Column(name = "Date de Debut")
     @NotNull(message = "le champ dateDebut est obligatoire")
-    private LocalDate dateDebut;
+    private Date dateDebut;
 
     @Column(name = "Date de Fin")
     @NotNull(message = "le champ dateFin est obligatoire")
-    private LocalDate dateFin;
+    private Date dateFin;
 
     @Column(name = "Description")
     @NotNull(message = "le champ d'escription est obligatoire")
@@ -41,6 +39,7 @@ public class Credit {
     private String audioDescriptionPath;
 
     @ManyToOne
+
     private Agriculteur creditAgriculteur;
 
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

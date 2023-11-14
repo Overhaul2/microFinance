@@ -5,6 +5,8 @@ import com.microfinance.agroInvest.exception.NotFoundException;
 import com.microfinance.agroInvest.model.Formation;
 import com.microfinance.agroInvest.services.FormationServiceImpl;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/formation")
 public class FormationController {
+    @Autowired
     private FormationServiceImpl formationService;
 
-    @PostMapping("/Ajouter")
+    @PostMapping("/ajouter")
     public ResponseEntity<Formation> AjouterFormation(
             @Valid @RequestParam("formation") String formationtString,
             @RequestParam(value = "video", required = false) MultipartFile videFile ) throws Exception {
@@ -26,13 +29,13 @@ public class FormationController {
             formation = new JsonMapper().readValue(formationtString,Formation.class);
 
         }catch (Exception e){
-            throw new Exception("impossible d'ajouter");
+            throw new Exception(e.getMessage());
         }
         Formation formation1= formationService.ajouter(formation,videFile);
         return new ResponseEntity<>(formation1, HttpStatus.CREATED);
     }
 
-    @PutMapping("/Modiffier/{idFor}")
+    @PutMapping("/modiffier/{idFor}")
     public ResponseEntity<Formation> Modifer(@PathVariable Long idFor,
                                           @RequestParam("formation") String formationString,
                                           @RequestParam(value = "video", required = false)MultipartFile videoFile ) throws Exception {
@@ -41,13 +44,13 @@ public class FormationController {
             formation = new JsonMapper().readValue(formationString,Formation.class);
 
         }catch (Exception e){
-            throw new Exception("impossible d'ajouter");
+            throw new Exception(e.getMessage());
         }
         Formation formation1= formationService.modiffier(formation,idFor,videoFile);
         return new ResponseEntity<>(formation1, HttpStatus.OK);
     }
 
-    @GetMapping("/afficherTout")
+    @GetMapping("/affichertout")
     private List<Formation> afficherTout(){
         return formationService.affichertout();
     }

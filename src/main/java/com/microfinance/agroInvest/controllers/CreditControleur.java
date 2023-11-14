@@ -31,12 +31,12 @@ public class CreditControleur {
     public ResponseEntity<Credit> ajouter(
           @Valid @RequestParam("credit") String creditString,
            @RequestParam(value = "audio", required = false)MultipartFile audioFile ) throws Exception {
-         Credit credit = new Credit();
+         Credit credit;
        try{
            credit = new JsonMapper().readValue(creditString,Credit.class);
 
        }catch (Exception e){
-           throw new NotFoundException("erreur de conversion de la chaîne JSON en objet");
+           throw new Exception(e.getMessage());
        }
        Credit credit1= creditService.AjouterDemande(credit,audioFile);
        return new ResponseEntity<>(credit1, HttpStatus.CREATED);
