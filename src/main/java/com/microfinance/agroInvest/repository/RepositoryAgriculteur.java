@@ -1,7 +1,6 @@
 package com.microfinance.agroInvest.repository;
 
 import com.microfinance.agroInvest.model.Agriculteur;
-import com.microfinance.agroInvest.model.Utilisateur;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RepositoryAgriculteur extends JpaRepository<Agriculteur , Long> {

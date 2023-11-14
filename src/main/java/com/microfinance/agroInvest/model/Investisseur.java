@@ -33,7 +33,6 @@ public class Investisseur {
 
     @Column(name = "telephone")
     @NotNull(message = "le champ tel est obligatoir")
-    @Size(min = 7 ,max =8 , message = "entrer un numéro de telephone correct")
     private int telephone;
 
     @Column(name = "residense")

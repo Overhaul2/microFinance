@@ -37,7 +37,7 @@ public class InvestisseurControlleur {
         return new ResponseEntity<>(investisseur1, HttpStatus.CREATED);
     }
 
-    @PutMapping("/modiffier{idInv}")
+    @PutMapping("/modiffier/{idInv}")
     public ResponseEntity<?> modiffer(@PathVariable Long idInv,
                                      @RequestParam("investisseur") String investisseurString,
                                      @RequestParam(value = "image", required = false)MultipartFile multipartFile ) throws Exception {
@@ -65,8 +65,8 @@ public class InvestisseurControlleur {
     };
     @PostMapping("/connexion")
     public Object connexion(@RequestParam("email")String email,@RequestParam("password")String password){
-        investisseurService.connexion(email, password);
-        return "Utilisateur connecter";
+        return investisseurService.connexion(email, password);
+
     }
     }
 

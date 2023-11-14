@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.microfinance.agroInvest.exception.NotFoundException;
 import com.microfinance.agroInvest.model.Agriculteur;
-import com.microfinance.agroInvest.model.Credit;
-import com.microfinance.agroInvest.repository.RepositoryAgriculteur;
 import com.microfinance.agroInvest.services.AgriculteurServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -39,8 +37,8 @@ public class AgriculteurController {
         return new ResponseEntity<>(agriculteur1, HttpStatus.CREATED);
     }
 
-    @PutMapping("/modiffier{id}")
-    public ResponseEntity<?> modifer(@PathVariable Long id,
+    @PutMapping("/modiffier/{idAgr}")
+    public ResponseEntity<?> modifer(@PathVariable Long idAgr,
                                           @RequestParam("agriculteur") String agriculteurString,
                                           @RequestParam(value = "image", required = false)MultipartFile multipartFile ) throws Exception {
         Agriculteur agriculteur = new Agriculteur();
@@ -50,7 +48,7 @@ public class AgriculteurController {
         }catch (JsonProcessingException e){
             throw new Exception(e.getMessage());
         }
-        Agriculteur agriculteur1= agriculteurService.modiffier(agriculteur,id,multipartFile);
+        Agriculteur agriculteur1= agriculteurService.modiffier(agriculteur,idAgr,multipartFile);
         return new ResponseEntity<>(agriculteur1, HttpStatus.OK);
     }
     @DeleteMapping("/supprimer{idAgr}")
@@ -65,9 +63,9 @@ public class AgriculteurController {
     @GetMapping("/afficherTout")
     private List<Agriculteur> afficherTout(){ return agriculteurService.affichertout();
     };
-    @PostMapping("/connexion")
-    public Object connexion(@RequestParam("email")String email,@RequestParam("password")String password){
-        agriculteurService.connexion(email, password);
-        return "Utilisateur connecter";
+    @GetMapping("/connexion")
+    private String connexion(@RequestParam("email")String email,@RequestParam("password")String password){
+        return agriculteurService.connexion(email, password);
+
     }
 }

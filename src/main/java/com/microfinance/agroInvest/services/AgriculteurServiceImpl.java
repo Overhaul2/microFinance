@@ -57,16 +57,21 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
                     throw new Exception(e.getMessage());
                 }
             }
-            return repositoryAgriculteur.save(agriculteur);
+
+            if (agriculteur.getPassWord().equals(agriculteur.getPassWordConfirm())) {
+             return repositoryAgriculteur.save(agriculteur);
+            }else {
+             throw new IllegalAccessException("Les 2 mot de passe ne se correspond pas");
+        }
         }
 
     }
 
-
+@Override
     public Agriculteur modiffier(Agriculteur agriculteur,Long idAgr, MultipartFile multipartFile) throws Exception {
         Agriculteur agriculteur1 = repositoryAgriculteur.findByIdAgr(idAgr);
                 //.orElseThrow(()-> new EntityNotFoundException("agriculteur nexistipas avec id:" +idAgr ));
-       Agriculteur agriculteur2= repositoryAgriculteur.findByEmailAndTelephone(agriculteur.getEmail(),agriculteur.getTelephone() );
+      // Agriculteur agriculteur2= repositoryAgriculteur.findByEmailAndTelephone(agriculteur.getEmail(),agriculteur.getTelephone() );
         agriculteur1.setNomPrenom(agriculteur.getNomPrenom());
         agriculteur1.setEmail(agriculteur.getEmail());
         agriculteur1.setTelephone(agriculteur.getTelephone());
@@ -105,11 +110,12 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
                 throw new Exception(e.getMessage());
             }
         }
-       if (agriculteur2==null){
-            repositoryAgriculteur.save(agriculteur1);
-        }else {
-         throw new Exception("le nom existe dejà");
-        }
+      // if (agriculteur2==null){
+          //  repositoryAgriculteur.save(agriculteur1);
+        //}else {
+         //throw new Exception("le nom existe dejà");
+        //}
+    repositoryAgriculteur.save(agriculteur);
         return agriculteur1;
     }
 

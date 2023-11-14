@@ -57,17 +57,15 @@ public class InvestisseurServiceImpl implements IInvestisseurService {
 
     }
 
-
+@Override
     public Investisseur modiffier(Investisseur investisseur,Long idInv, MultipartFile multipartFile) throws Exception {
         Investisseur investisseur1 = repositoryInvestisseur.findByIdInv(idInv);
         //.orElseThrow(()-> new EntityNotFoundException("agriculteur nexistipas avec id:" +idAgr ));
-        Investisseur investisseur2= repositoryInvestisseur.findByEmailAndTelephone(investisseur.getEmail(),investisseur.getTelephone() );
+       // Investisseur investisseur2= repositoryInvestisseur.findByEmailAndTelephone(investisseur.getEmail(),investisseur.getTelephone() );
         investisseur1.setNomPrenom(investisseur.getNomPrenom());
         investisseur1.setEmail(investisseur.getEmail());
         investisseur1.setTelephone(investisseur.getTelephone());
         investisseur1.setResidense(investisseur.getResidense());
-       // investisseur1.setAge(investisseur.getAge());
-       // investisseur1.setActiviteMenee(investisseur.getActiviteMenee());
         investisseur1.setPassWord(investisseur.getPassWord());
         investisseur1.setPassWordConfirm(investisseur.getPassWordConfirm());
         if (multipartFile != null) {
@@ -100,11 +98,12 @@ public class InvestisseurServiceImpl implements IInvestisseurService {
                 throw new Exception(e.getMessage());
             }
         }
-         if (investisseur2==null){
-            repositoryInvestisseur.save(investisseur1);
-        }else {
-         throw new Exception("un investisseur existe dejà avec le même nom ou numéro de téléphone");
-        }
+         //if (investisseur2==null){
+        //    repositoryInvestisseur.save(investisseur1);
+       // }else {
+         //throw new Exception("un investisseur existe dejà avec le même nom ou numéro de téléphone");
+        //}
+        repositoryInvestisseur.save(investisseur1);
         return investisseur1;
     }
 
