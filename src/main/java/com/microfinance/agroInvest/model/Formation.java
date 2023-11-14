@@ -27,4 +27,7 @@ public class Formation {
     @Column(name = "video")
     private String video;
 
+
+    @ManyToOne
+    private Admin formationAdmin;
 }

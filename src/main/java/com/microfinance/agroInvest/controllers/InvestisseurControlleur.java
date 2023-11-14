@@ -31,7 +31,7 @@ public class InvestisseurControlleur {
             investisseur = new JsonMapper().readValue(investisseurString,Investisseur.class);
 
         }catch (Exception e){
-            throw new NotFoundException("impossible d'ajouter");
+            throw new Exception("erreur de conversion de la chaîne JSON en objet");
         }
         Investisseur investisseur1= investisseurService.inscrire(investisseur,imageFile);
         return new ResponseEntity<>(investisseur1, HttpStatus.CREATED);

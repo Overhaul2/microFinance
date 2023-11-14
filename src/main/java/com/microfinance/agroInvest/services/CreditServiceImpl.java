@@ -1,16 +1,16 @@
 package com.microfinance.agroInvest.services;
 
-import com.microfinance.agroInvest.exception.NotFoundException;
 import com.microfinance.agroInvest.model.Credit;
 import com.microfinance.agroInvest.repository.RepositoryCredit;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 @Service
@@ -24,8 +24,18 @@ public class CreditServiceImpl implements ICreditService  {
     @Override
     public Credit AjouterDemande(Credit credit, MultipartFile audioFile) throws Exception {
         Credit credit1 = repositoryCredit.findByNom(credit.getNom());
+        //verification des date lors de la demande de crédit
+        LocalDate dateDebut = credit.getDateDebut();
+        LocalDate dateFin = dateDebut.with(TemporalAdjusters.lastDayOfMonth());
+        LocalDate dateToDate = LocalDate.now();
+
+        if (dateDebut.isBefore(dateToDate)||dateDebut.getYear()!=dateToDate.getYear())
+            throw new Exception("Veuillez entrer une date valide !!!");
+        if (dateFin.isBefore(dateDebut)) {
+            throw new Exception("La date de fin ne doit pas être antérieure à la date de début !!!");
+        }
         if (credit1 != null) {
-            throw new Exception("un demande avec le même nom existe déjà");
+            throw new Exception("une demande avec le même nom existe déjà");
         } else {
             if(audioFile != null){
                 String location = "C:\\xampp\\htdocs\\audio_description";
@@ -63,6 +73,17 @@ public class CreditServiceImpl implements ICreditService  {
     }
 
     public Credit ModiffierDemande(Credit credit, long id, MultipartFile audioFile) throws Exception {
+        //verification des date lors de la modification
+        LocalDate dateDebut = credit.getDateDebut();
+        LocalDate dateFin = dateDebut.with(TemporalAdjusters.lastDayOfMonth());
+        LocalDate dateToDate = LocalDate.now();
+
+        if (dateDebut.isBefore(dateToDate)||dateDebut.getYear()!=dateToDate.getYear())
+            throw new Exception("Veuillez entrer une date valide !!!");
+        if (dateFin.isBefore(dateDebut)) {
+            throw new Exception("La date de fin ne doit pas être antérieure à la date de début !!!");
+        }
+
         Credit credit1 = repositoryCredit.findByIdCredit(id);
         Credit credit2= repositoryCredit.findByNom(credit.getNom());
         credit1.setNom(credit.getNom());
@@ -93,7 +114,7 @@ public class CreditServiceImpl implements ICreditService  {
                             credit1.setAudioDescriptionPath("http://localhost/audio_description/"+audioFile.getOriginalFilename());
                         }
                     } catch (Exception e) {
-                        throw new NotFoundException("impossible de telecharger le fichier audio");
+                        throw new Exception("impossible de telecharger le fichier audio");
                     }
                 }
             } catch (Exception e) {
@@ -123,7 +144,7 @@ public class CreditServiceImpl implements ICreditService  {
     public Credit Supprimer(Long idCredit) throws Exception {
         Credit credit= repositoryCredit.findByIdCredit(idCredit);
         if (credit.getIdCredit()==null) {
-            throw new NotFoundException("Cette demande n'existe pas");
+            throw new Exception("Cette demande n'existe pas");
         }else {
             repositoryCredit.deleteById(idCredit);
         }

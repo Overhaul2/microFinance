@@ -26,7 +26,7 @@ public class FormationController {
             formation = new JsonMapper().readValue(formationtString,Formation.class);
 
         }catch (Exception e){
-            throw new NotFoundException("impossible d'ajouter");
+            throw new Exception("impossible d'ajouter");
         }
         Formation formation1= formationService.ajouter(formation,videFile);
         return new ResponseEntity<>(formation1, HttpStatus.CREATED);
@@ -41,7 +41,7 @@ public class FormationController {
             formation = new JsonMapper().readValue(formationString,Formation.class);
 
         }catch (Exception e){
-            throw new NotFoundException("impossible d'ajouter");
+            throw new Exception("impossible d'ajouter");
         }
         Formation formation1= formationService.modiffier(formation,idFor,videoFile);
         return new ResponseEntity<>(formation1, HttpStatus.OK);

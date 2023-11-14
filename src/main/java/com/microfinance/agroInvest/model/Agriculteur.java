@@ -1,5 +1,6 @@
 package com.microfinance.agroInvest.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -7,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 //@PrimaryKeyJoinColumn(name = "idUser")
 @Entity
@@ -23,7 +26,7 @@ private Long idAgr;
     @Size(max = 80, message = "nom et prenom trop long", min = 10)
     private  String nomPrenom;
 
-    @Column(name = "email",unique = true)
+    @Column(name = "email")
     @NotNull(message = "le champ email est obligatoire")
     @Email(message = "Entrer une adress email valide")
     private String email;
@@ -56,5 +59,15 @@ private Long idAgr;
     @NotNull(message = "le champ mot de passe confirm est obligatoire")
     private String passWordConfirm;
 
+
+    //@JoinColumn(name = "Credit_agriculteur_id")
+    @OneToMany(mappedBy = "creditAgriculteur")
+    @JsonProperty(access =  JsonProperty.Access.WRITE_ONLY)
+    private List<Credit> AgriculteurCredit;
+
+
+    @OneToMany(mappedBy = "agriculteurForum")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Forum> forumAgriculteur;
 
 }

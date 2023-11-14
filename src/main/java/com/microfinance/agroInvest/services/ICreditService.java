@@ -1,6 +1,5 @@
 package com.microfinance.agroInvest.services;
 
-import com.microfinance.agroInvest.exception.NotFoundException;
 import com.microfinance.agroInvest.model.Credit;
 import org.springframework.web.multipart.MultipartFile;
 

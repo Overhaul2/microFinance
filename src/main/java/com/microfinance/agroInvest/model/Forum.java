@@ -22,4 +22,10 @@ public class Forum {
     @NotNull(message = "le champ nom est obligatoire")
     private String description;
 
+    @ManyToOne
+    private Agriculteur agriculteurForum;
+
+    @ManyToOne
+    private Investisseur investisseurForum;
+
 }

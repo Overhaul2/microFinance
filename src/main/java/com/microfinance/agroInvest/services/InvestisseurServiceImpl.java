@@ -111,7 +111,7 @@ public class InvestisseurServiceImpl implements IInvestisseurService {
     public String connexion(String email, String password) {
         Investisseur investisseur= repositoryInvestisseur.findByEmailAndPassWord(email,password);
         if (investisseur!=null){
-            return "Agriculteur connecter";
+            return "investisseur connecter";
         }else {
             return "email ou mot de passe incorrect";
         }
@@ -132,7 +132,7 @@ public class InvestisseurServiceImpl implements IInvestisseurService {
     public Investisseur supprimer(Long idInv) throws NotFoundException {
         Investisseur investisseur=repositoryInvestisseur.findByIdInv(idInv);
         if (investisseur==null){
-            throw new NotFoundException("aucun agriculteur trouvé");
+            throw new NotFoundException("aucun Investisseur trouvé");
         }else {
             repositoryInvestisseur.deleteById(idInv);
         }

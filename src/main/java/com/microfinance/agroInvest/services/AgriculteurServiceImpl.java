@@ -2,8 +2,10 @@ package com.microfinance.agroInvest.services;
 
 import com.microfinance.agroInvest.exception.NotFoundException;
 import com.microfinance.agroInvest.model.Agriculteur;
+import com.microfinance.agroInvest.model.Credit;
 import com.microfinance.agroInvest.repository.RepositoryAgriculteur;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -103,7 +105,7 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
                             agriculteur.setImage("http://localhost/image_agriculteur/"+multipartFile.getOriginalFilename());
                         }
                     } catch (Exception e) {
-                        throw new NotFoundException("impossible de telecharger le fichier audio");
+                        throw new Exception("impossible de telecharger le fichier audio");
                     }
                 }
             } catch (Exception e) {
@@ -141,13 +143,14 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
     }
 
     @Override
-    public Agriculteur supprimer(Long idAgr) throws NotFoundException {
+    public Agriculteur supprimer(Long idAgr) {
         Agriculteur agriculteur=repositoryAgriculteur.findByIdAgr(idAgr);
         if (agriculteur==null){
-            throw new NotFoundException("aucun agriculteur trouvé");
+           new NotFoundException("aucun agriculteur trouvé");
         }else {
             repositoryAgriculteur.deleteById(idAgr);
         }
         return agriculteur;
     }
+
 }

@@ -36,7 +36,7 @@ public class CreditControleur {
            credit = new JsonMapper().readValue(creditString,Credit.class);
 
        }catch (Exception e){
-           throw new NotFoundException("impossible d'ajouter");
+           throw new NotFoundException("erreur de conversion de la chaîne JSON en objet");
        }
        Credit credit1= creditService.AjouterDemande(credit,audioFile);
        return new ResponseEntity<>(credit1, HttpStatus.CREATED);
@@ -51,7 +51,7 @@ public class CreditControleur {
             credit = new JsonMapper().readValue(creditString,Credit.class);
 
         }catch (Exception e){
-            throw new NotFoundException("impossible d'ajouter");
+            throw new Exception("erreur de conversion de la chaîne JSON en objet");
         }
         Credit credit1= creditService.ModiffierDemande(credit,idCredit,audioFile);
         return new ResponseEntity<>(credit1, HttpStatus.OK);

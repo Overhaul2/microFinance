@@ -31,7 +31,7 @@ public class AgriculteurController {
             agriculteur = new JsonMapper().readValue(agriculteurString,Agriculteur.class);
 
         }catch (Exception e){
-            throw new NotFoundException("impossible d'ajouter");
+            throw new Exception("erreur de conversion de la chaîne JSON en objet");
         }
         Agriculteur agriculteur1= agriculteurService.inscrire(agriculteur,imageFile);
         return new ResponseEntity<>(agriculteur1, HttpStatus.CREATED);
