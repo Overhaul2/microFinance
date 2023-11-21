@@ -7,6 +7,7 @@ import com.microfinance.agroInvest.repository.RepositoryAgriculteur;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +22,7 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 @Service
 @AllArgsConstructor
 public class AgriculteurServiceImpl implements IAgriculteurService {
-
+    @Autowired
     private RepositoryAgriculteur repositoryAgriculteur;
     @Override
     public Agriculteur inscrire(Agriculteur agriculteur, MultipartFile imageFile) throws Exception {
@@ -61,7 +62,7 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
             }
 
             if (agriculteur.getPassWord().equals(agriculteur.getPassWordConfirm())) {
-             return repositoryAgriculteur.save(agriculteur);
+              return repositoryAgriculteur.save(agriculteur);
             }else {
              throw new IllegalAccessException("Les 2 mot de passe ne se correspond pas");
         }

@@ -22,6 +22,9 @@ public class Forum {
     @NotNull(message = "le champ nom est obligatoire")
     private String description;
 
+    @Column(name = "photo")
+    private String image;
+
     @ManyToOne
     private Agriculteur agriculteurForum;
 

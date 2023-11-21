@@ -50,7 +50,7 @@ private Long idAgr;
     @Column(name = "image")
    // @NotNull(message = "le champ image menée est obligatoire")
     private String image;
-
+    @JsonProperty("passWord")
     @Column(name = "motDePasse")
     @NotNull(message = "le champ mot de passe est obligatoire")
     private String passWord;

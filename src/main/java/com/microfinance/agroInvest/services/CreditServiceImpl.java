@@ -10,8 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,7 +22,7 @@ public class CreditServiceImpl implements ICreditService  {
 
     @Override
     public Credit AjouterDemande(Credit credit, MultipartFile audioFile) throws Exception {
-        Credit credit1 = repositoryCredit.findByNom(credit.getNom());
+        Credit credit1 = repositoryCredit.findByTitre(credit.getTitre());
         //verification des date lors de la demande de crédit
         //  LocalDate dateFinLimite = dateDebut.plusYears(2);
         LocalDate dateDebut = LocalDate.now();
@@ -86,7 +84,6 @@ public class CreditServiceImpl implements ICreditService  {
         LocalDate dateDebut = LocalDate.now();
         LocalDate dateFin = dateDebut.plusDays(30);
         LocalDate dateToDate = LocalDate.now();
-
         if (dateDebut.isBefore(dateToDate)) {
             throw new Exception("Veuillez entrer une date valide !!!");
         }
@@ -100,12 +97,12 @@ public class CreditServiceImpl implements ICreditService  {
         }
 
         Credit credit1 = repositoryCredit.findByIdCredit(id);
-        Credit credit2= repositoryCredit.findByNom(credit.getNom());
-        credit1.setNom(credit.getNom());
+        Credit credit2= repositoryCredit.findByTitre(credit.getTitre());
+        credit1.setTitre(credit.getTitre());
         credit1.setDescription(credit.getDescription());
         credit1.setMontant(credit.getMontant());
         credit1.setDateDebut(credit.getDateDebut());
-        credit1.setDateFin(credit.getDateFin());
+        credit1.setDurre(credit.getDurre());
         if (audioFile != null) {
             String location = "C:\\xampp\\htdocs\\audio_description";
             try {

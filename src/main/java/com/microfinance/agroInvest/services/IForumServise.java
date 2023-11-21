@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface IForumServise {
 
-    Forum ajouter(Forum forum, MultipartFile multipartFile);
+    Forum ajouter(Forum forum, MultipartFile imageFile) throws Exception;
 
-    Forum modffier(Forum forum, Long idF, MultipartFile multipartFile);
+    Forum modffier(Forum forum, Long idF,MultipartFile imageFile) throws Exception;
 
     List<Forum> affichertout();
 

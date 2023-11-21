@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.DataInput;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/agriculteur")
 @AllArgsConstructor
@@ -34,6 +35,7 @@ public class AgriculteurController {
             throw new Exception(e.getMessage());
         }
         Agriculteur agriculteur1= agriculteurService.inscrire(agriculteur,imageFile);
+        System.out.println("test agriculteur"+agriculteur1);
         return new ResponseEntity<>(agriculteur1, HttpStatus.CREATED);
     }
 

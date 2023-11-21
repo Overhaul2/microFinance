@@ -17,7 +17,7 @@ public class Credit {
     private Long idCredit;
    @Column(name = "Nom")
     @NotNull(message = "Le champ nom est obligatoire")
-    private String nom;
+    private String titre;
 
     @Column(name = "Montant")
     @NotNull(message = "le champ montant est obligatoire")
@@ -27,9 +27,9 @@ public class Credit {
     @NotNull(message = "le champ dateDebut est obligatoire")
     private Date dateDebut;
 
-    @Column(name = "Date de Fin")
+    @Column(name = "Durre")
     @NotNull(message = "le champ dateFin est obligatoire")
-    private Date dateFin;
+    private int durre;
 
     @Column(name = "Description")
     @NotNull(message = "le champ d'escription est obligatoire")
@@ -38,8 +38,7 @@ public class Credit {
     @Column(name = "DescriptionAudio")
     private String audioDescriptionPath;
 
-    @ManyToOne
-
+    @ManyToOne(cascade = CascadeType.ALL)
     private Agriculteur creditAgriculteur;
 
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
