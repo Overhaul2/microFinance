@@ -15,7 +15,7 @@ public interface IAgriculteurService {
 
     Agriculteur modiffier(Agriculteur agriculteur,Long idAgr, MultipartFile imageFile) throws Exception;
 
-    String connexion(String email, String password);
+    Agriculteur connexion(String email, String password) throws Exception;
 
     Agriculteur lire(Long idAgr);
 

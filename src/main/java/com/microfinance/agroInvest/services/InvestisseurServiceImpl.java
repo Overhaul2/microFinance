@@ -108,12 +108,12 @@ public class InvestisseurServiceImpl implements IInvestisseurService {
     }
 
     @Override
-    public String connexion(String email, String password) {
+    public Investisseur connexion(String email, String password) throws Exception {
         Investisseur investisseur= repositoryInvestisseur.findByEmailAndPassWord(email,password);
         if (investisseur!=null){
-            return "investisseur connecter";
+            return investisseur;
         }else {
-            return "email ou mot de passe incorrect";
+            throw new Exception("email ou mot de passe incorrect");
         }
 
     }

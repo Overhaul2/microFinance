@@ -1,8 +1,10 @@
 package com.microfinance.agroInvest.services;
 
 import com.microfinance.agroInvest.model.Credit;
+import com.microfinance.agroInvest.repository.RepositoryAgriculteur;
 import com.microfinance.agroInvest.repository.RepositoryCredit;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,7 +19,11 @@ import java.util.List;
 
 
 public class CreditServiceImpl implements ICreditService  {
+    @Autowired
     private RepositoryCredit repositoryCredit;
+
+    @Autowired
+    private RepositoryAgriculteur repositoryAgriculteur;
 
 
     @Override
@@ -28,7 +34,21 @@ public class CreditServiceImpl implements ICreditService  {
         LocalDate dateDebut = LocalDate.now();
         LocalDate dateFin = dateDebut.plusDays(30);
         LocalDate dateToDate = LocalDate.now();
-
+       /* Agriculteur agriculteur = credit.getAgriculteur();
+        if (agriculteur != null && agriculteur.getIdAgr() != null) {
+            // L'ID de l'agriculteur est présent, vérifions s'il existe dans la base de données
+            Optional<Agriculteur> existingAgriculteur = repositoryAgriculteur.findById(agriculteur.getIdAgr());
+            if (existingAgriculteur.isPresent()) {
+                // L'agriculteur existe déjà, utilisez-le
+                agriculteur = existingAgriculteur.get();
+                credit.setAgriculteur(agriculteur); // Mettez à jour l'agriculteur dans la demande de crédit
+            } else {
+                throw new Exception("Agriculteur avec l'ID spécifié non trouvé dans la base de données");
+            }
+        } else {
+            throw new Exception("L'ID de l'agriculteur est obligatoire pour lier un agriculteur existant à la demande de crédit");
+        }
+*/
         if (dateDebut.isBefore(dateToDate)) {
             throw new Exception("Veuillez entrer une date valide !!!");
         }

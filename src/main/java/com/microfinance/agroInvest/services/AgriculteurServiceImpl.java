@@ -123,12 +123,12 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
     }
 
     @Override
-    public String connexion(String email, String password) {
+    public Agriculteur connexion(String email, String password) throws Exception {
        Agriculteur agriculteur= repositoryAgriculteur.findByEmailAndPassWord(email,password);
-       if (agriculteur!=null){
-           return "Agriculteur connecter avec succès";
+       if (agriculteur==null){
+           throw new Exception("cet agriculteur n'existe pas ");
        }else {
-           return "email ou mot de passe incorrect";
+           return agriculteur;
        }
 
     }

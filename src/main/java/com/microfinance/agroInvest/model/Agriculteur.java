@@ -22,29 +22,29 @@ public class Agriculteur  {
 private Long idAgr;
 
     @Column(name = "nom prenom")
-    @NotNull(message = "Le champ nom et prenom est obligatoire")
-    @Size(max = 80, message = "nom et prenom trop long", min = 10)
+   // @NotNull(message = "Le champ nom et prenom est obligatoire")
+    //@Size(max = 80, message = "nom et prenom trop long", min = 10)
     private  String nomPrenom;
 
     @Column(name = "email")
-    @NotNull(message = "le champ email est obligatoire")
-    @Email(message = "Entrer une adress email valide")
+   // @NotNull(message = "le champ email est obligatoire")
+    //@Email(message = "Entrer une adress email valide")
     private String email;
 
     @Column(name = "telephone")
-    @NotNull(message = "le champ tel est obligatoir")
+    //@NotNull(message = "le champ tel est obligatoir")
     private int telephone;
 
     @Column(name = "residense")
-    @NotNull(message = "le champ résidense est obligatoir")
+   // @NotNull(message = "le champ résidense est obligatoir")
     private String residense;
 
     @Column(name = "age")
-    @NotNull(message = "le champ age est obligatoire")
+   // @NotNull(message = "le champ age est obligatoire")
     private int age;
 
     @Column(name = "activiteMenee")
-    @NotNull(message = "le champ Activitée menée est obligatoire")
+    //@NotNull(message = "le champ Activitée menée est obligatoire")
     private String ActiviteMenee;
 
     @Column(name = "image")
@@ -52,18 +52,21 @@ private Long idAgr;
     private String image;
     @JsonProperty("passWord")
     @Column(name = "motDePasse")
-    @NotNull(message = "le champ mot de passe est obligatoire")
+   // @NotNull(message = "le champ mot de passe est obligatoire")
     private String passWord;
 
     @Column(name = "motDePasseConfirm")
-    @NotNull(message = "le champ mot de passe confirm est obligatoire")
+   // @NotNull(message = "le champ mot de passe confirm est obligatoire")
     private String passWordConfirm;
 
 
     //@JoinColumn(name = "Credit_agriculteur_id")
-    @OneToMany(mappedBy = "creditAgriculteur")
+    @OneToMany(mappedBy = "agriculteur")
     @JsonProperty(access =  JsonProperty.Access.WRITE_ONLY)
-    private List<Credit> AgriculteurCredit;
+    private List<Credit> credits;
+
+    @OneToMany(mappedBy = "agriculteur")
+    private List<Offre> offresInvestisseur;
 
 
     @OneToMany(mappedBy = "agriculteurForum")

@@ -6,6 +6,7 @@ import com.microfinance.agroInvest.model.Credit;
 import com.microfinance.agroInvest.repository.RepositoryCredit;
 import com.microfinance.agroInvest.services.CreditServiceImpl;
 import com.microfinance.agroInvest.services.ICreditService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +24,13 @@ public class CreditControleur {
 
     @Autowired
     private CreditServiceImpl creditService;
-
    @PostMapping("/ajouter")
    // private String AjouterDemanse(@RequestBody Credit credit){
      //   return creditService.AjouterDemande(credit );
    // }
     public ResponseEntity<Credit> ajouter(
           @Valid @RequestParam("credit") String creditString,
-           @RequestParam(value = "audio", required = false)MultipartFile audioFile ) throws Exception {
+           @RequestParam(value = "audio", required = false)MultipartFile audioFile) throws Exception {
          Credit credit;
        try{
            credit = new JsonMapper().readValue(creditString,Credit.class);
@@ -59,7 +59,8 @@ public class CreditControleur {
 
     @GetMapping("/affichertout")
     private List<Credit> affichertout(){
-        return creditService.afficherTout();
+        System.out.println("mes credits========="+creditService.afficherTout().size());
+       return creditService.afficherTout();
     }
 
     @GetMapping("/lire{idCredit}")

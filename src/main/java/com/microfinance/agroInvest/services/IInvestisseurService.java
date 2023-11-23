@@ -13,7 +13,7 @@ public interface IInvestisseurService {
 
     Investisseur modiffier(Investisseur investisseur, Long idInv, MultipartFile imageFile) throws Exception;
 
-    String connexion(String email, String password);
+    Investisseur connexion(String email, String password) throws Exception;
 
     Investisseur lire(Long idInv);
 

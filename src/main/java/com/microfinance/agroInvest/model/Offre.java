@@ -1,21 +1,22 @@
 package com.microfinance.agroInvest.model;
 
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import java.util.Date;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Data @AllArgsConstructor @NoArgsConstructor
-@Table(name = "MicroCredit")
-public class Credit {
+public class Offre {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCredit;
-   @Column(name = "titre")
+    Long idOf;
+    @Column(name = "titre")
     @NotNull(message = "Le champ nom est obligatoire")
     private String titre;
 
@@ -43,6 +44,5 @@ public class Credit {
 
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne
-    private Investisseur offreInvestisseur;
-
+    private Investisseur investisseur;
 }

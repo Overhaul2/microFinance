@@ -63,8 +63,8 @@ public class InvestisseurControlleur {
     @GetMapping("/afficherTout")
     private List<Investisseur> afficherTout(){ return investisseurService.affichertout();
     };
-    @PostMapping("/connexion")
-    public Object connexion(@RequestParam("email")String email,@RequestParam("password")String password){
+    @GetMapping ("/connexion")
+    public Investisseur connexion(@RequestParam("email")String email,@RequestParam("password")String password) throws Exception {
         return investisseurService.connexion(email, password);
 
     }

@@ -66,7 +66,7 @@ public class AgriculteurController {
     private List<Agriculteur> afficherTout(){ return agriculteurService.affichertout();
     };
     @GetMapping("/connexion")
-    private String connexion(@RequestParam("email")String email,@RequestParam("password")String password){
+    private Agriculteur connexion(@RequestParam("email")String email,@RequestParam("password")String password) throws Exception {
         return agriculteurService.connexion(email, password);
 
     }

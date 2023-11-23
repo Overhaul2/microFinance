@@ -1,5 +1,6 @@
 package com.microfinance.agroInvest.services;
 
+import com.microfinance.agroInvest.model.Agriculteur;
 import com.microfinance.agroInvest.model.Credit;
 import org.springframework.web.multipart.MultipartFile;
 

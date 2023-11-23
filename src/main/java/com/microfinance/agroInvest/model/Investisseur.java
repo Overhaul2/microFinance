@@ -42,7 +42,7 @@ public class Investisseur {
     private String residense;
 
     @Column(name = "image")
-    @NotNull(message = "image obligatoir")
+    //@NotNull(message = "image obligatoir")
     private String image;
 
     @Column(name = "motDePasse")
@@ -57,6 +57,10 @@ public class Investisseur {
     @OneToMany(mappedBy = "offreInvestisseur")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Credit> investisseurOffre;
+
+    @JsonProperty(access =  JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "investisseur")
+    private List<Offre> agriculteurOffre;
 
     @OneToMany(mappedBy = "investisseurForum")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
