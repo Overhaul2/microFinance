@@ -1,5 +1,6 @@
 package com.microfinance.agroInvest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -53,11 +54,12 @@ public class Investisseur {
     @NotNull(message = "le champ mot de passe confirm est obligatoire")
     private String passWordConfirm;
 
-
+    //@JsonIgnore
     @OneToMany(mappedBy = "offreInvestisseur")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Credit> investisseurOffre;
 
+    @JsonIgnore
     @JsonProperty(access =  JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "investisseur")
     private List<Offre> agriculteurOffre;

@@ -63,6 +63,11 @@ public class CreditControleur {
        return creditService.afficherTout();
     }
 
+    @GetMapping("/list/{idAgr}")
+    public ResponseEntity<List<Credit>> listeCredit(@PathVariable Long idAgr){
+        return  new ResponseEntity<>(creditService.lireParAgriculteur(idAgr), HttpStatus.OK);
+    }
+
     @GetMapping("/lire{idCredit}")
     private Credit lire(@RequestParam Long idCredit){
         return creditService.lire(idCredit);

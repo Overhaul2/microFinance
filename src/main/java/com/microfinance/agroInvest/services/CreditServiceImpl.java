@@ -1,10 +1,15 @@
 package com.microfinance.agroInvest.services;
 
+import com.microfinance.agroInvest.model.Agriculteur;
 import com.microfinance.agroInvest.model.Credit;
 import com.microfinance.agroInvest.repository.RepositoryAgriculteur;
 import com.microfinance.agroInvest.repository.RepositoryCredit;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -181,5 +186,13 @@ public class CreditServiceImpl implements ICreditService  {
             repositoryCredit.deleteById(idCredit);
         }
         throw new Exception("n'existe pas");
+    }
+
+    public List<Credit> lireParAgriculteur(Long idAgr){
+        List<Credit> credit = repositoryCredit.findByAgriculteurIdAgr(idAgr);
+        if (credit.isEmpty())
+            throw new EntityNotFoundException("Aucun credit trouvée");
+        return credit;
+
     }
 }

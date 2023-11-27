@@ -2,7 +2,6 @@ package com.microfinance.agroInvest.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.microfinance.agroInvest.exception.NotFoundException;
 import com.microfinance.agroInvest.model.Agriculteur;
 import com.microfinance.agroInvest.services.AgriculteurServiceImpl;
 import jakarta.validation.Valid;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.DataInput;
 import java.util.List;
 
 @CrossOrigin(origins = "*")

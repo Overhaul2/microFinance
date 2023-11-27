@@ -1,7 +1,9 @@
 package com.microfinance.agroInvest.services;
 
+import com.microfinance.agroInvest.model.Credit;
 import com.microfinance.agroInvest.model.Offre;
 import com.microfinance.agroInvest.repository.RepositoryOffre;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,7 +70,7 @@ public class OffreServiceImpl implements IOffreService{
 
     @Override
     public List<Offre> afficherTout() {
-        return null;
+        return repositoryOffre.findAll();
     }
 
     @Override
@@ -80,4 +82,13 @@ public class OffreServiceImpl implements IOffreService{
     public Offre Supprimer(Long idOf) throws Exception {
         return null;
     }
+
+    public List<Offre> lireParIvestisseur(Long idInv){
+        List<Offre> offre = repositoryOffre.findByInvestisseurIdInv(idInv);
+        if (offre.isEmpty())
+            throw new EntityNotFoundException("Aucun credit trouvée");
+        return offre;
+
+    }
+
 }

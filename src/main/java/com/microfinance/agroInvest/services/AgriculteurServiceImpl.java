@@ -125,9 +125,12 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
     @Override
     public Agriculteur connexion(String email, String password) throws Exception {
        Agriculteur agriculteur= repositoryAgriculteur.findByEmailAndPassWord(email,password);
+       System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
        if (agriculteur==null){
+           System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
            throw new Exception("cet agriculteur n'existe pas ");
        }else {
+           System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
            return agriculteur;
        }
 
