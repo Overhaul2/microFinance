@@ -1,18 +1,16 @@
 package com.microfinance.agroInvest.services;
 
-import com.microfinance.agroInvest.model.Agriculteur;
 import com.microfinance.agroInvest.model.Credit;
 import com.microfinance.agroInvest.repository.RepositoryAgriculteur;
 import com.microfinance.agroInvest.repository.RepositoryCredit;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -186,6 +184,13 @@ public class CreditServiceImpl implements ICreditService  {
             repositoryCredit.deleteById(idCredit);
         }
         throw new Exception("n'existe pas");
+    }
+
+    @Override
+    public List<Credit> getCreditWithNullInvestisseur() {
+        String jpql = "SELECT c FROM Credit c WHERE c.offreInvestisseur IS NULL";
+        TypedQuery<Credit> query = entityManager.createQuery(jpql, Credit.class);
+        return null;
     }
 
     public List<Credit> lireParAgriculteur(Long idAgr){

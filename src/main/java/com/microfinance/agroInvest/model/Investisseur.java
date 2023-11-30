@@ -59,7 +59,7 @@ public class Investisseur {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Credit> investisseurOffre;
 
-    @JsonIgnore
+   // @JsonIgnore
     @JsonProperty(access =  JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "investisseur")
     private List<Offre> agriculteurOffre;

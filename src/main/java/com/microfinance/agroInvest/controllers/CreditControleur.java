@@ -1,12 +1,8 @@
 package com.microfinance.agroInvest.controllers;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.microfinance.agroInvest.exception.NotFoundException;
 import com.microfinance.agroInvest.model.Credit;
-import com.microfinance.agroInvest.repository.RepositoryCredit;
 import com.microfinance.agroInvest.services.CreditServiceImpl;
-import com.microfinance.agroInvest.services.ICreditService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/Credit")
 @AllArgsConstructor
@@ -59,7 +55,7 @@ public class CreditControleur {
 
     @GetMapping("/affichertout")
     private List<Credit> affichertout(){
-        System.out.println("mes credits========="+creditService.afficherTout().size());
+        //System.out.println("mes credits========="+creditService.afficherTout().size());
        return creditService.afficherTout();
     }
 

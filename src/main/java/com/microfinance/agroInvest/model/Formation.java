@@ -28,6 +28,14 @@ public class Formation {
     private String video;
 
 
+    @Column(name = "video1")
+    private String video1;
+
+
+    @Column(name = "video2")
+    private String video2;
+
+
     @ManyToOne
     private Admin formationAdmin;
 }

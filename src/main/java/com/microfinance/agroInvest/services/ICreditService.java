@@ -15,4 +15,6 @@ public interface ICreditService {
     Credit lire(Long idCredit);
 
     Credit Supprimer(Long idCredit) throws Exception;
+
+    List<Credit> getCreditWithNullInvestisseur();
 }

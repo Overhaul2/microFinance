@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-//@PrimaryKeyJoinColumn(name = "idUser")
 @Entity
 @Data
 @NoArgsConstructor
@@ -52,7 +51,7 @@ public class Agriculteur {
     private String ActiviteMenee;
 
     @Column(name = "image")
-    @NotNull(message = "le champ image menée est obligatoire")
+   // @NotNull(message = "le champ image  est obligatoire")
     private String image;
     @JsonProperty("passWord")
     @Column(name = "motDePasse")

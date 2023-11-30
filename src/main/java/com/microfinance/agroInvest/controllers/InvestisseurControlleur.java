@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("investisseur")
 @AllArgsConstructor
@@ -60,7 +61,7 @@ public class InvestisseurControlleur {
     @GetMapping("/lire{idInv}")
     private Investisseur lire(@RequestParam long idInv){ return investisseurService.lire(idInv);
     };
-    @GetMapping("/afficherTout")
+    @GetMapping("/affichertout")
     private List<Investisseur> afficherTout(){ return investisseurService.affichertout();
     };
     @GetMapping ("/connexion")

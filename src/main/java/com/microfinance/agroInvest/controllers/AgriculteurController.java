@@ -6,7 +6,6 @@ import com.microfinance.agroInvest.model.Agriculteur;
 import com.microfinance.agroInvest.services.AgriculteurServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,6 @@ import java.util.List;
 @RequestMapping("/agriculteur")
 @AllArgsConstructor
 public class AgriculteurController {
-    @Autowired
     private AgriculteurServiceImpl agriculteurService;
     @PostMapping("/inscrire")
     public ResponseEntity<Agriculteur> inscrire(
@@ -52,17 +50,17 @@ public class AgriculteurController {
         return new ResponseEntity<>(agriculteur1, HttpStatus.OK);
     }
     @DeleteMapping("/supprimer{idAgr}")
-    private String supprimer(@RequestParam long idAgr) throws Exception {
+    private String supprimer(@RequestParam long idAgr)  {
         agriculteurService.supprimer(idAgr);
         return "supprimer avec succès";
 
     }
     @GetMapping("/lire{idAgr}")
     private Agriculteur lire(@RequestParam long idAgr){ return agriculteurService.lire(idAgr);
-    };
-    @GetMapping("/afficherTout")
+    }
+    @GetMapping("/affichertout")
     private List<Agriculteur> afficherTout(){ return agriculteurService.affichertout();
-    };
+    }
     @GetMapping("/connexion")
     private Agriculteur connexion(@RequestParam("email")String email,@RequestParam("password")String password) throws Exception {
         return agriculteurService.connexion(email, password);
