@@ -1,16 +1,19 @@
 package com.microfinance.agroInvest.services;
 
+import com.microfinance.agroInvest.model.Agriculteur;
 import com.microfinance.agroInvest.model.Credit;
-import com.microfinance.agroInvest.repository.RepositoryAgriculteur;
+import com.microfinance.agroInvest.model.Investisseur;
 import com.microfinance.agroInvest.repository.RepositoryCredit;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,15 +22,20 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+//@PersistenceContext
 
 
 public class CreditServiceImpl implements ICreditService  {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
     @Autowired
     private RepositoryCredit repositoryCredit;
 
-    @Autowired
+    /*@Autowired
     private RepositoryAgriculteur repositoryAgriculteur;
-
+*/
 
     @Override
     public Credit AjouterDemande(Credit credit, MultipartFile audioFile) throws Exception {
@@ -190,8 +198,46 @@ public class CreditServiceImpl implements ICreditService  {
     public List<Credit> getCreditWithNullInvestisseur() {
         String jpql = "SELECT c FROM Credit c WHERE c.offreInvestisseur IS NULL";
         TypedQuery<Credit> query = entityManager.createQuery(jpql, Credit.class);
-        return null;
+        return query.getResultList();
     }
+
+    @Override
+    public List<Credit> AfficherCreditParIdInvestisseur(Long idInv) {
+        String jpql= "SELECT c FROM Credit c WHERE c.offreInvestisseur.id = :idInv";
+        TypedQuery<Credit> query = entityManager.createQuery(jpql, Credit.class);
+        query.setParameter("idInv", idInv);
+        return query.getResultList();
+    }
+
+    @Transactional
+    @Override
+    public void ajouterIdInvToCredit(Long idCredit, Long idInv) {
+        Credit credit = entityManager.find(Credit.class, idCredit);
+        Investisseur investisseur = entityManager.find(Investisseur.class, idInv);
+
+        if (credit!=null && investisseur!=null){
+            credit.setOffreInvestisseur(investisseur);
+            entityManager.merge(credit);
+        }
+    }
+
+    @Override
+    public List<Credit> searchCreditByTitre(String titre) {
+        String jpql ="SELECT c FROM Credit c WHERE c.titre LIKE :titre";
+        TypedQuery<Credit> query = entityManager.createQuery(jpql, Credit.class);
+        query.setParameter("titre", "%" + titre + "%");
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Credit> getCreditsWithNonNullInvestisseurByAgriculteurId(Long idAgr) {
+        String jpql = "SELECT c FROM Credit c WHERE c.agriculteur.id = :idAgr AND c.offreInvestisseur IS NOT NULL";
+        TypedQuery<Credit> query = entityManager.createQuery(jpql, Credit.class);
+        query.setParameter("idAgr", idAgr);
+        return query.getResultList();
+    }
+
+
 
     public List<Credit> lireParAgriculteur(Long idAgr){
         List<Credit> credit = repositoryCredit.findByAgriculteurIdAgr(idAgr);
@@ -200,4 +246,15 @@ public class CreditServiceImpl implements ICreditService  {
         return credit;
 
     }
+
+
+    /*
+    @Override
+    public List<Credit> getCreditsByInvestisseurId(Long idInv) {
+        String jpql = "SELECT c FROM Credit c WHERE c.offreInvestisseur.id= :idInv";
+        TypedQuery<Credit> query= entityManager.createQuery(jpql, Credit.class);
+        query.setParameter("idInv", idInv);
+        return query.getResultList();
+    }*/
+
 }

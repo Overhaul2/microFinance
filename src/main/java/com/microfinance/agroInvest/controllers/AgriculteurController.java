@@ -26,10 +26,10 @@ public class AgriculteurController {
         Agriculteur agriculteur = new Agriculteur();
         try{
             agriculteur = new JsonMapper().readValue(agriculteurString,Agriculteur.class);
-
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }
+
         Agriculteur agriculteur1= agriculteurService.inscrire(agriculteur,imageFile);
         System.out.println("test agriculteur"+agriculteur1);
         return new ResponseEntity<>(agriculteur1, HttpStatus.CREATED);

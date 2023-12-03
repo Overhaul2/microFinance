@@ -17,4 +17,8 @@ public interface IOffreService {
 
     Offre Supprimer(Long idOf) throws Exception;
 
+    List<Offre> getOffreWithNullAgriculteur();
+
+    void addAgriculteurToOffre(Long idOf, Long idAgr);
+
 }

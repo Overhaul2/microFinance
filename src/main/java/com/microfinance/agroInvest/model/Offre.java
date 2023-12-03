@@ -39,6 +39,8 @@ public class Offre {
     @Column(name = "DescriptionAudio")
     private String audioDescriptionPath;
 
+    private String etat= "En attente";
+
     @ManyToOne
     private Agriculteur agriculteur;
 

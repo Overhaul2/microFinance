@@ -1,9 +1,12 @@
 package com.microfinance.agroInvest.services;
 
+import com.microfinance.agroInvest.Configuration.EmailSender;
 import com.microfinance.agroInvest.exception.NotFoundException;
 import com.microfinance.agroInvest.model.Investisseur;
 import com.microfinance.agroInvest.repository.RepositoryInvestisseur;
+import com.microfinance.agroInvest.repository.RepositoryOffre;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +17,7 @@ import java.util.List;
 @Service @AllArgsConstructor
 public class InvestisseurServiceImpl implements IInvestisseurService {
 
+    @Autowired
     private RepositoryInvestisseur repositoryInvestisseur;
 
 

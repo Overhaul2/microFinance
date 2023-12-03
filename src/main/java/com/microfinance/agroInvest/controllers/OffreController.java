@@ -14,34 +14,49 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/offre")
 @AllArgsConstructor
 public class OffreController {
-     @Autowired
+    @Autowired
     private OffreServiceImpl offreService;
 
-     @PostMapping("/ajouter")
+    @PostMapping("/ajouter")
     public ResponseEntity<Offre> ajouterOffre(
-             @Valid @RequestParam("offre") String offreString,
-             @RequestParam(value = "audio", required = false) MultipartFile audioFile) throws Exception {
-    Offre offre;
-        try{
+            @Valid @RequestParam("offre") String offreString,
+            @RequestParam(value = "audio", required = false) MultipartFile audioFile) throws Exception {
+        Offre offre;
+        try {
             offre = new JsonMapper().readValue(offreString, Offre.class);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        Offre offre1= offreService.AjouterOffre(offre,audioFile);
+        Offre offre1 = offreService.AjouterOffre(offre, audioFile);
         return new ResponseEntity<>(offre1, HttpStatus.CREATED);
     }
 
     @GetMapping("/list/{idInv}")
-    public ResponseEntity<List<Offre>> listeOffre(@PathVariable Long idInv){
-        return  new ResponseEntity<>(offreService.lireParIvestisseur(idInv), HttpStatus.OK);
+    public ResponseEntity<List<Offre>> listeOffre(@PathVariable Long idInv) {
+        return new ResponseEntity<>(offreService.lireParIvestisseur(idInv), HttpStatus.OK);
     }
+
     @GetMapping("/affichertout")
-    private List<Offre> afficherTout(){ return offreService.afficherTout();
-    };
+    private List<Offre> afficherTout() {
+        return offreService.afficherTout();
+    }
+
+    ;
+     @GetMapping("/offresansagriculteur")
+    public List <Offre> offreSansAgriculteur(){
+         return offreService.getOffreWithNullAgriculteur();
+     }
+
+     @PutMapping("/accepterOffre/{idOf}/{idAgr}")
+    public void AjoutidAgrToOffre(@PathVariable Long idOf, @PathVariable Long idAgr){
+         offreService.addAgriculteurToOffre(idOf, idAgr);
+     }
+
 }

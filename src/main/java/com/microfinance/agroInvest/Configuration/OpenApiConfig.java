@@ -1,4 +1,4 @@
-package com.microfinance.agroInvest.SwaggerConfig;
+package com.microfinance.agroInvest.Configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

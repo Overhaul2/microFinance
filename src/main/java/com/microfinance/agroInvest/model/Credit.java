@@ -25,7 +25,7 @@ public class Credit {
 
     @Column(name = "Date de Debut")
     @NotNull(message = "le champ dateDebut est obligatoire")
-    private Date dateDebut;
+    private String dateDebut;
 
     @Column(name = "Durre")
     @NotNull(message = "le champ dateFin est obligatoire")

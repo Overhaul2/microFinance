@@ -4,8 +4,6 @@ import com.microfinance.agroInvest.exception.NotFoundException;
 import com.microfinance.agroInvest.model.Agriculteur;
 import com.microfinance.agroInvest.model.Credit;
 import com.microfinance.agroInvest.repository.RepositoryAgriculteur;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,51 +24,42 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
     private RepositoryAgriculteur repositoryAgriculteur;
     @Override
     public Agriculteur inscrire(Agriculteur agriculteur, MultipartFile imageFile) throws Exception {
-       Agriculteur agriculteur1= repositoryAgriculteur.findByEmailAndTelephone(agriculteur.getEmail(), agriculteur.getTelephone());
-        if (agriculteur1!=null){
-            throw new RuntimeException("un agriculteur bexiste dejà avec le même numero ou adresse email");
-        }else {
-            if(imageFile != null){
+        Agriculteur agriculteur1 = repositoryAgriculteur.findByEmailAndTelephone(agriculteur.getEmail(), agriculteur.getTelephone());
+
+        if (agriculteur1 != null) {
+            throw new RuntimeException("Un agriculteur existe déjà avec le même numéro ou adresse e-mail");
+        } else {
+            if (imageFile != null) {
                 String location = "C:\\xampp\\htdocs\\image_agriculteur";
-                try{
-                    Path rootlocation = Paths.get(location);
-                    if(!Files.exists(rootlocation)){
-                        Files.createDirectories(rootlocation);
-                        Files.copy(imageFile.getInputStream(),
-                                rootlocation.resolve(imageFile.getOriginalFilename()));
-                        agriculteur.setImage("http://localhost/image_agriculteur/"+imageFile.getOriginalFilename());
-                    }else{
-                        try {
-                            String nom = location+"\\"+imageFile.getOriginalFilename();
-                            Path name = Paths.get(nom);
-                            if(!Files.exists(name)){
-                                Files.copy(imageFile.getInputStream(),
-                                        rootlocation.resolve(imageFile.getOriginalFilename()));
-                                agriculteur.setImage("http://localhost/image_agriculteur/"+imageFile.getOriginalFilename());
-                            }else{
-                                Files.delete(name);
-                                Files.copy(imageFile.getInputStream(),rootlocation.resolve(imageFile.getOriginalFilename()));
-                                agriculteur.setImage("http://localhost/image_agriculteur/"+imageFile.getOriginalFilename());
-                            }
-                        }catch (Exception e){
-                            throw new Exception("Impossible de télécharger l'image");
-                        }
+                try {
+                    Path rootLocation = Paths.get(location);
+                    if (!Files.exists(rootLocation)) {
+                        Files.createDirectories(rootLocation);
                     }
-                } catch (Exception e){
+
+                    Path imagePath = rootLocation.resolve(imageFile.getOriginalFilename());
+
+                    if (Files.exists(imagePath)) {
+                        Files.delete(imagePath);
+                    }
+
+                    Files.copy(imageFile.getInputStream(), imagePath);
+                    agriculteur.setImage("image_agriculteur/" + imageFile.getOriginalFilename());
+                } catch (Exception e) {
                     throw new Exception(e.getMessage());
                 }
             }
 
             if (agriculteur.getPassWord().equals(agriculteur.getPassWordConfirm())) {
-              return repositoryAgriculteur.save(agriculteur);
-            }else {
-             throw new IllegalAccessException("Les 2 mot de passe ne se correspond pas");
+                return repositoryAgriculteur.save(agriculteur);
+            } else {
+                throw new IllegalAccessException("Les 2 mots de passe ne correspondent pas");
+            }
         }
-        }
-
     }
 
-@Override
+
+    @Override
     public Agriculteur modiffier(Agriculteur agriculteur,Long idAgr, MultipartFile multipartFile) throws Exception {
         Agriculteur agriculteur1 = repositoryAgriculteur.findByIdAgr(idAgr);
                 //.orElseThrow(()-> new EntityNotFoundException("agriculteur nexistipas avec id:" +idAgr ));

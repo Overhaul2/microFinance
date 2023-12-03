@@ -54,7 +54,7 @@ public class Investisseur {
     @NotNull(message = "le champ mot de passe confirm est obligatoire")
     private String passWordConfirm;
 
-    //@JsonIgnore
+    @JsonIgnore
     @OneToMany(mappedBy = "offreInvestisseur")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Credit> investisseurOffre;

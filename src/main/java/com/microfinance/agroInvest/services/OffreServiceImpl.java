@@ -1,9 +1,14 @@
 package com.microfinance.agroInvest.services;
 
-import com.microfinance.agroInvest.model.Credit;
+import com.microfinance.agroInvest.Configuration.EmailSender;
+import com.microfinance.agroInvest.model.Agriculteur;
 import com.microfinance.agroInvest.model.Offre;
 import com.microfinance.agroInvest.repository.RepositoryOffre;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +23,13 @@ import java.util.List;
 public class OffreServiceImpl implements IOffreService{
     @Autowired
     private RepositoryOffre repositoryOffre;
+    @Autowired
+    private EmailSender emailSender;
+    @Autowired
+    private AgriculteurServiceImpl agriculteurService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
 
     @Override
@@ -57,7 +69,9 @@ public class OffreServiceImpl implements IOffreService{
                     throw new Exception(e.getMessage());
                 }
             }
-            return repositoryOffre.save(offre);
+             repositoryOffre.save(offre);
+            emailSender.AlerteAgriculteur("Une Nouvelle offre de credit a été ajouter par un investisseur", "Nouvelle Offre");
+            return offre;
 
         }
     }
@@ -81,6 +95,24 @@ public class OffreServiceImpl implements IOffreService{
     @Override
     public Offre Supprimer(Long idOf) throws Exception {
         return null;
+    }
+
+    @Override
+    public List<Offre> getOffreWithNullAgriculteur() {
+        String jpql="SELECT c FROM Offre c WHERE c.agriculteur IS NULL";
+        TypedQuery<Offre> query= entityManager.createQuery(jpql, Offre.class);
+        return query.getResultList();
+    }
+
+    @Transactional
+    @Override
+    public void addAgriculteurToOffre(Long idOf, Long idAgr) {
+        Offre offre = entityManager.find(Offre.class, idOf);
+        Agriculteur agriculteur = entityManager.find(Agriculteur.class, idAgr);
+        if (offre!=null && agriculteur!=null){
+            offre.setAgriculteur(agriculteur);
+            entityManager.merge(offre);
+        }
     }
 
     public List<Offre> lireParIvestisseur(Long idInv){

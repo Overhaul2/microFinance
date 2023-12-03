@@ -74,4 +74,32 @@ public class CreditControleur {
         creditService.Supprimer(idCredit);
         return "supprimer avec succès";
     }
+
+    @GetMapping("/creditsansinvestisseur")
+    public List<Credit> CreditSansInvestisseur(){
+       return creditService.getCreditWithNullInvestisseur();
+    }
+
+    @GetMapping("/afficherparidInv/{idInv}")
+    public  List<Credit> afficherCreditparIdInv(@PathVariable Long idInv){
+       return creditService.AfficherCreditParIdInvestisseur(idInv);
+    }
+
+    @PutMapping("/accepterDemande/{idCredit}/{idInv}")
+    public void accepterDemande(@PathVariable Long idCredit, @PathVariable Long idInv){
+       creditService.ajouterIdInvToCredit(idCredit,idInv);
+    }
+
+    @GetMapping("/recherche/{titre}")
+    public  List<Credit> rechercherParTitre(@PathVariable String titre){
+       return creditService.searchCreditByTitre(titre);
+    }
+
+    @GetMapping("/investisseur/{idAgr}")
+    public ResponseEntity<List<Credit>> getCreditsWithNonNullInvestisseurByAgriculteurId(@PathVariable Long idAgr) {
+        List<Credit> credits = creditService.getCreditsWithNonNullInvestisseurByAgriculteurId(idAgr);
+        return ResponseEntity.ok(credits);
+    }
+
+
 }
