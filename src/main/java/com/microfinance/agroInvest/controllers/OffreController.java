@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.microfinance.agroInvest.model.Agriculteur;
 import com.microfinance.agroInvest.model.Credit;
 import com.microfinance.agroInvest.model.Offre;
+import com.microfinance.agroInvest.services.CreditServiceImpl;
 import com.microfinance.agroInvest.services.OffreServiceImpl;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.List;
 public class OffreController {
     @Autowired
     private OffreServiceImpl offreService;
+    private CreditServiceImpl creditService;
 
     @PostMapping("/ajouter")
     public ResponseEntity<Offre> ajouterOffre(
@@ -58,5 +60,18 @@ public class OffreController {
     public void AjoutidAgrToOffre(@PathVariable Long idOf, @PathVariable Long idAgr){
          offreService.addAgriculteurToOffre(idOf, idAgr);
      }
+
+
+    @GetMapping("/agriculteur/{idInv}")
+    public ResponseEntity<List<Offre>> getOffresWithNonNullAgriculteurByInvestisseurId(@PathVariable Long idInv) {
+        List<Offre> offres = offreService.getOffresWithNonNullAgriculteurByInvestisseurId(idInv);
+        return ResponseEntity.ok(offres);
+    }
+
+    @GetMapping("/Creditagriculteur/{idInv}")
+    public ResponseEntity<List<Credit>> getCreditsWithNonNullInvestisseurByInvestiseurId(@PathVariable Long idInv) {
+        List<Credit> credits = creditService.getCreditsWithNonNullInvestisseurByInvestiseurId(idInv);
+        return ResponseEntity.ok(credits);
+    }
 
 }

@@ -238,6 +238,14 @@ public class CreditServiceImpl implements ICreditService  {
     }
 
 
+    public List<Credit> getCreditsWithNonNullInvestisseurByInvestiseurId(Long idInv) {
+        String jpql = "SELECT c FROM Credit c WHERE c.offreInvestisseur.id = :idInv AND c.agriculteur IS NOT NULL";
+        TypedQuery<Credit> query = entityManager.createQuery(jpql, Credit.class);
+        query.setParameter("idInv", idInv);
+        return query.getResultList();
+    }
+
+
 
     public List<Credit> lireParAgriculteur(Long idAgr){
         List<Credit> credit = repositoryCredit.findByAgriculteurIdAgr(idAgr);

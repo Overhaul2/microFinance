@@ -2,6 +2,7 @@ package com.microfinance.agroInvest.services;
 
 import com.microfinance.agroInvest.Configuration.EmailSender;
 import com.microfinance.agroInvest.model.Agriculteur;
+import com.microfinance.agroInvest.model.Credit;
 import com.microfinance.agroInvest.model.Offre;
 import com.microfinance.agroInvest.repository.RepositoryOffre;
 import jakarta.persistence.EntityManager;
@@ -115,6 +116,14 @@ public class OffreServiceImpl implements IOffreService{
         }
     }
 
+    @Override
+    public List<Offre> getOffresWithNonNullAgriculteurByInvestisseurId(Long idInv) {
+        String jpql = "SELECT c FROM Offre c WHERE c.investisseur.id = :idInv AND c.agriculteur IS NOT NULL";
+        TypedQuery<Offre> query = entityManager.createQuery(jpql, Offre.class);
+        query.setParameter("idInv", idInv);
+        return query.getResultList();
+    }
+
     public List<Offre> lireParIvestisseur(Long idInv){
         List<Offre> offre = repositoryOffre.findByInvestisseurIdInv(idInv);
         if (offre.isEmpty())
@@ -122,5 +131,7 @@ public class OffreServiceImpl implements IOffreService{
         return offre;
 
     }
+
+
 
 }

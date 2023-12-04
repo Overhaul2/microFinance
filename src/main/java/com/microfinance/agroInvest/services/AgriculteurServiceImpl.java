@@ -30,6 +30,7 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
             throw new RuntimeException("Un agriculteur existe déjà avec le même numéro ou adresse e-mail");
         } else {
             if (imageFile != null) {
+                int index = imageFile.getOriginalFilename().lastIndexOf(".");
                 String location = "C:\\xampp\\htdocs\\image_agriculteur";
                 try {
                     Path rootLocation = Paths.get(location);
@@ -37,14 +38,14 @@ public class AgriculteurServiceImpl implements IAgriculteurService {
                         Files.createDirectories(rootLocation);
                     }
 
-                    Path imagePath = rootLocation.resolve(imageFile.getOriginalFilename());
+                    Path imagePath = rootLocation.resolve(agriculteur.getEmail()+imageFile.getOriginalFilename().substring(index));
 
                     if (Files.exists(imagePath)) {
                         Files.delete(imagePath);
                     }
 
                     Files.copy(imageFile.getInputStream(), imagePath);
-                    agriculteur.setImage("image_agriculteur/" + imageFile.getOriginalFilename());
+                    agriculteur.setImage("image_agriculteur/" + agriculteur.getEmail()+imageFile.getOriginalFilename().substring(index));
                 } catch (Exception e) {
                     throw new Exception(e.getMessage());
                 }

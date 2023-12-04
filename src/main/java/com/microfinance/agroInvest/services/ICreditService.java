@@ -29,4 +29,7 @@ public interface ICreditService {
 
     List<Credit> getCreditsWithNonNullInvestisseurByAgriculteurId(Long idAgr);
 
+    List<Credit> getCreditsWithNonNullInvestisseurByInvestiseurId(Long idInv);
+
+
 }

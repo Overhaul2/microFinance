@@ -55,7 +55,6 @@ public class CreditControleur {
 
     @GetMapping("/affichertout")
     private List<Credit> affichertout(){
-        //System.out.println("mes credits========="+creditService.afficherTout().size());
        return creditService.afficherTout();
     }
 

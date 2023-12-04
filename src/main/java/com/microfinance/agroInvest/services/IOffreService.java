@@ -21,4 +21,8 @@ public interface IOffreService {
 
     void addAgriculteurToOffre(Long idOf, Long idAgr);
 
+    List<Offre> getOffresWithNonNullAgriculteurByInvestisseurId(Long idInv);
+
+
+
 }
