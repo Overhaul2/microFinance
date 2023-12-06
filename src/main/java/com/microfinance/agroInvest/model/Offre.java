@@ -26,11 +26,11 @@ public class Offre {
 
     @Column(name = "Date de Debut")
     @NotNull(message = "le champ dateDebut est obligatoire")
-    private Date dateDebut;
+    private String dateDebut;
 
     @Column(name = "Durre")
     @NotNull(message = "le champ dateFin est obligatoire")
-    private int durre;
+    private String durre;
 
     @Column(name = "Description")
     @NotNull(message = "le champ d'escription est obligatoire")

@@ -16,4 +16,7 @@ public interface RepositoryCredit extends JpaRepository<Credit , Long> {
 
     List<Credit> findByAgriculteurIdAgr(Long idAgr);
 
+    List<Credit> findByOffreInvestisseurIdInv(Long idInv);
+
+
 }

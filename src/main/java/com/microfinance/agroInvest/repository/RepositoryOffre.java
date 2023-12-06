@@ -12,4 +12,6 @@ public interface RepositoryOffre extends JpaRepository<Offre , Long> {
     Offre findByIdOf(Long idCredit);
 
     List<Offre> findByInvestisseurIdInv(Long idInv);
+
+    List<Offre> findByAgriculteurIdAgr(Long idAgr);
 }
